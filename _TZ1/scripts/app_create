@@ -1,0 +1,31 @@
+#! /bin/bash
+if [ $# -eq 0 ]; then
+	echo usage: app_create APPNAME
+	exit
+elif [ -e $1 ]; then
+	echo $1 is already exists.
+	exit
+fi 
+
+
+echo "Create application directory: $1"
+mkdir $1
+
+echo "Copy skeleton files."
+rsync -a --exclude "*.doxyfile" ${TZ1_BASE}skel/ $1
+
+echo "Copy RTE files."
+mkdir $1/RTE
+mkdir -p $1/RTE/Device/TZ1001MBG/
+mkdir -p $1/RTE/Middleware/TZ1001MBG/
+cp -r ${SDK_DIR}TOSHIBA.TZ10xx_DFP/RTE_Driver/Config/* $1/RTE/Device/TZ1001MBG/
+cp -r ${SDK_DIR}TOSHIBA.TZ10xx_DFP/Middleware/blelib/Config/* $1/RTE/Middleware/TZ1001MBG/
+cp -r ${SDK_DIR}TOSHIBA.TZ10xx_DFP/Middleware/TWiC/Config/* $1/RTE/Middleware/TZ1001MBG/
+cp ${SDK_DIR}TOSHIBA.TZ10xx_DFP/Boards/TOSHIBA/RBTZ1000/Template/RTE/RTE_Components.h $1/RTE/
+cd $1
+patch -p0 < RTE.patch
+
+sed "s/^TARGET.*$/TARGET=$1/" Makefile > Makefile.new
+mv Makefile.new Makefile
+
+exit

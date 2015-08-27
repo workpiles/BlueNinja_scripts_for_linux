@@ -1,0 +1,11 @@
+export TZ1_BASE=$(cd $(dirname $0) && pwd)/
+
+export PATH=${PATH}:${TZ1_BASE}scripts
+
+export TOOL_DIR=${TZ1_BASE}tools/bin/
+export SDK_DIR=${TZ1_BASE}sdk/
+
+#export OCD_BIN_DIR=${TZ1_BASE}OpenOCD-0.8.0/bin/
+#export OCD_CFG_DIR=${TZ1_BASE}OpenOCD-0.8.0/share/openocd/scripts/
+
+export PS1="\[\e[0;31m\][\W]$\[\e[0m\] "
