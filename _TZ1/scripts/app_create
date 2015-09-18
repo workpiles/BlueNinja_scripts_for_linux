@@ -23,6 +23,7 @@ cp -r ${SDK_DIR}TOSHIBA.TZ10xx_DFP/Middleware/blelib/Config/* $1/RTE/Middleware/
 cp -r ${SDK_DIR}TOSHIBA.TZ10xx_DFP/Middleware/TWiC/Config/* $1/RTE/Middleware/TZ1001MBG/
 cp ${SDK_DIR}TOSHIBA.TZ10xx_DFP/Boards/TOSHIBA/RBTZ1000/Template/RTE/RTE_Components.h $1/RTE/
 cd $1
+find . -type f -exec dos2unix {} \;
 patch -p0 < RTE.patch
 
 sed "s/^TARGET.*$/TARGET=$1/" Makefile > Makefile.new
